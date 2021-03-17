@@ -4,7 +4,7 @@ include("onda/hydrophone/get_calibration_HGL0200_2322.jl")
 
 include("precision_acoustics/get_calibration_PA_3197.jl")
 
-function get_calibration(hydro_id, preamp_id)
+function get_calibration(hydro_id, preamp_id = "")
     if hydro_id == :PA_3197
         return get_calibration_PA_3197(), []
     elseif hydro_id == :Onda_HGL0200_2322
