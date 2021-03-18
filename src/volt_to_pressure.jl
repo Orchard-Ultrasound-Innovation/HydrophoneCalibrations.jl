@@ -6,21 +6,16 @@ MHz_to_Hz(Hz) = Hz * 1_000_000
 
 interp(x, v, f0) = LinearInterpolation(x, v)(f0)
 """
-    volt_to_pressure(15e6; hydrophone_id=:Onda_HGL0200_2322, preamp_id = :Onda_AH2020_1238_20dB)
-    volt_to_pressure(15e6; hydrophone_id=:PA_3197)
+    volt_to_pressure(15e6; hydrophone_id = :Onda_HGL0200_2322, preamp_id = :Onda_AH2020_1238_20dB)
+    volt_to_pressure(15e6; hydrophone_id = :PA_3197)
 
 # Arguments
-- `f0`: Frequency in Hz. 1-20MHz supported
-- `hydrophone_id`: Currently accepts two: :Onda_HGL0200_2322, :PA_3197
-- `preamp_id`: Only for :Onda_HGL0200_2322. Choices are: Onda_AH2020_1238_0dB, Onda_AH2020_1238_20dB
+- `f0`: Frequency in Hz.
+- `hydrophone_id`: Currently accepts two: :Onda_HGL0200_2322, :PA_3197.
+- `preamp_id`: Only for :Onda_HGL0200_2322. Choices are: :Onda_AH2020_1238_0dB, :Onda_AH2020_1238_20dB.
 # Returns
-- `factor`: conversion factor in form of pascal/volt 
-`# TODO: Optional outputs`
-- `phase_out`: 
-- `preamp_gain_out`
-- `hydro_sense_out`
+- `factor`: conversion factor in form of pascal/volt.
 """
-
 function volt_to_pressure(
     f0; hydrophone_id::Symbol = hydrophone_id
 )
