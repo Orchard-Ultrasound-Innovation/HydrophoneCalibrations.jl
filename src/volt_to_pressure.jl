@@ -35,7 +35,7 @@ function volt_to_pressure(
 end
 
 function volt_to_pressure(
-    f0; hydrophone_id::Symbol = hydrophone_id; preamp_id::Symbol = preamp_id
+    f0; hydrophone_id::Symbol = hydrophone_id, preamp_id::Symbol = preamp_id
 )
     factor, _ = volt_to_pressure_and_phase(
        f0; hydrophone_id = hydrophone_id, preamp_id = preamp_id
@@ -44,7 +44,7 @@ function volt_to_pressure(
 end
 
 function volt_to_pressure_and_phase(
-    f0; hydrophone_id::Symbol = hydrophone_id; preamp_id::Symbol = preamp_id
+    f0; hydrophone_id::Symbol = hydrophone_id, preamp_id::Symbol = preamp_id
 )
 
     calibration_data, preamp_data = get_calibration(
