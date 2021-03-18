@@ -1,10 +1,19 @@
 using Interpolations
+using Unitful
 
 include("calibration/data.jl")
 
 MHz_to_Hz(Hz) = Hz * 1_000_000
 
-interp(x, v, f0) = LinearInterpolation(x, v)(f0)
+function interp(x, v, f0) 
+    try
+        return LinearInterpolation(x, v)(f0)
+    catch err
+        if isa(err, BoundsError)
+            throw("f0 must be between $(x[begin])-$(x[end])")
+        end
+    end
+end
 """
     volt_to_pressure(15e6; hydrophone_id = :Onda_HGL0200_2322, preamp_id = :Onda_AH2020_1238_20dB)
     volt_to_pressure(15e6; hydrophone_id = :PA_3197)
@@ -17,14 +26,11 @@ interp(x, v, f0) = LinearInterpolation(x, v)(f0)
 - `factor`: conversion factor in form of pascal/volt.
 """
 function volt_to_pressure(
-    f0; hydrophone_id::Symbol = hydrophone_id
+    f0, hydrophone_id::Symbol,
 )
-    calibration_data, preamp_data = get_calibration(
+    calibration_data, _ = get_calibration(
         hydrophone_id
     )
-
-    @assert isempty(preamp_data)
-
 
     hydro_freq = MHz_to_Hz(calibration_data[:, 1])
     hydro_sens_dB = calibration_data[:, 2]
@@ -35,23 +41,25 @@ function volt_to_pressure(
 end
 
 function volt_to_pressure(
-    f0; hydrophone_id::Symbol = hydrophone_id, preamp_id::Symbol = preamp_id
+    f0, hydrophone_id::Symbol, preamp_id::Symbol,
 )
     factor, _ = volt_to_pressure_and_phase(
-       f0; hydrophone_id = hydrophone_id, preamp_id = preamp_id
+       f0, hydrophone_id, preamp_id 
     )
     return factor
 end
 
 function volt_to_pressure_and_phase(
-    f0; hydrophone_id::Symbol = hydrophone_id, preamp_id::Symbol = preamp_id
+    f0, hydrophone_id::Symbol, preamp_id::Symbol
 )
 
     calibration_data, preamp_data = get_calibration(
         hydrophone_id, preamp_id
     )
 
-    @assert !isempty(preamp_data)
+    if isempty(preamp_data)
+        error("No preamplifier calibration data found")
+    end
 
     hydro_freq = MHz_to_Hz(calibration_data[:, 1])
     hydro_sens_dB = calibration_data[:, 2]
@@ -81,5 +89,6 @@ end
 function convert_sens_to_factor(sensitivity_dB)
     sensitivity_linear = 10 .^ ((1.0 * sensitivity_dB+120)/20.0)
     factor = 1 ./ sensitivity_linear
-    return factor
+    units = u"Pa" / u"V"
+    return factor  * units
 end
