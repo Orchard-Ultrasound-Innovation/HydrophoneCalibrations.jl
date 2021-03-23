@@ -5,7 +5,7 @@ include("calibration/data.jl")
 
 MHz_to_Hz(Hz) = Hz * 1_000_000
 
-function interp(x, v, f0) 
+function interp(x, v, f0)
     try
         return LinearInterpolation(x, v)(f0)
     catch err
@@ -44,7 +44,7 @@ function volt_to_pressure(
     f0, hydrophone_id::Symbol, preamp_id::Symbol,
 )
     factor, _ = volt_to_pressure_and_phase(
-       f0, hydrophone_id, preamp_id 
+       f0, hydrophone_id, preamp_id
     )
     return factor
 end
@@ -82,7 +82,7 @@ function volt_to_pressure_and_phase(
     volt_div_dB = 20*log10(volt_div)
 
     # Combine result
-    combined_sens_dB = hydro_sens_at_f0_dB + amp_gain_f0_dB + volt_div_dB 
+    combined_sens_dB = hydro_sens_at_f0_dB + amp_gain_f0_dB + volt_div_dB
     return convert_sens_to_factor(combined_sens_dB), preamp_phase
 end
 

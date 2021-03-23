@@ -21,8 +21,8 @@ function combine_gains()
     preamp2 = [] #get_preamp_upper_gain()
 
     preamp_tot = [preamp1; preamp2]
-    sort!(preamp_tot; dims=1)
-    uniq_idx = uniqueindex(preamp_tot[:,1])
+    sort!(preamp_tot; dims = 1)
+    uniq_idx = uniqueindex(preamp_tot[:, 1])
     preamp_data = preamp_tot[uniq_idx, :]
 
     return preamp_data
