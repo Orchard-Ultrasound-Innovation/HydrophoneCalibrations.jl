@@ -1,8 +1,6 @@
 using Interpolations
 using Unitful
 
-include("calibration/data.jl")
-
 MHz_to_Hz(Hz) = Hz * 1_000_000
 
 function interp(x, v, f0)
