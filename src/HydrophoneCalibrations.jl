@@ -46,7 +46,6 @@ function parse_onda(name)
     function keep(s, i) 
         if found(s, i)
             row = split(i)
-            @info row
             if length(row) == 2
                 info[s] = row[2]
             else
