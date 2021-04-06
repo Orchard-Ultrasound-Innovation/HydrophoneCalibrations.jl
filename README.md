@@ -33,23 +33,13 @@ hydrophone and preamplifier calibration data.
 To add your calibration data create functions in the following style:
 
 ```julia
-"""
-`MyHydrophone`
-"""
-function calibration(::Val{:MyHydrophone})
-    return [
-        { Your data goes here }
-    ]
-end
+@calibration :MyHydrophone [
+    { Your data goes here }
+]
 
-"""
-`MyPreamplifier`
-"""
-function calibration(::Val{:MyPreamplifier})
-    return [
-        { Your data goes here }
-    ]
-end
+@calibration :MyPreamplifier [
+    { Your data goes here }
+]
 ```
 
 Now :MyHydrophone and :MyPreamplifier are available in the code and you
@@ -61,6 +51,10 @@ volt_to_pressure_and_phase(1e6, :MyHydrophone, :MyPreamplifier)
 ```
 
 To make sure your device is loaded you can run:
+```julia
+methods(calibration)
+```
+or
 ```julia
 julia>using HydrophoneCalibrations
 help>calibration
@@ -75,3 +69,15 @@ help>calibration
 
 See the calibration folder in this repo for an example of how to structure your calibration data when you have multiple devices.
 
+# Fast convert data
+If your calibration is done by Onda. There is a quick way to convert your
+calibration data into the format required by this package.
+
+```julia
+parse_onda("onda-device-calibration.txt")
+```
+This will auto generate the data for you in a new file: `Onda_Device_Serial.jl"
+
+and from there you can change the symbol name to whatever you want and include this file in your calibration/config.jl file
+
+As of now only Onda calibrations have been done but feel free to make a PR and add support for any manufacture's standard calibration format
