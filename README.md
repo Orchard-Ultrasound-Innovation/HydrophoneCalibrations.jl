@@ -21,10 +21,10 @@ This library
 ```julia
 using HydrophoneCalibrations
 # Separate Hydrophone and Preamplifier
-volt_to_pressure_and_phase(1e6, :Onda_HGL0200_2322, :Onda_AH2020_1238_20dB)
+volt_to_pressure(1e6, :Onda_HGL0200_2322, :Onda_AH2020_1238_20dB)
 
 # Hydrophone and Preamplifier are single unit
-volt_to_pressure_and_phase(1e6, :PA_3197)
+volt_to_pressure(1e6, :PA_3197)
 ```
 # Loading your configuration data
 By default this package looks in "./calibration/config.jl" for your
@@ -76,7 +76,7 @@ calibration data into the format required by this package.
 ```julia
 parse_onda("onda-device-calibration.txt")
 ```
-This will auto generate the data for you in a new file: `Onda_Device_Serial.jl"
+This will auto generate the data for you in a new file: `Onda_Device_Serial.jl`
 
 and from there you can change the symbol name to whatever you want and include this file in your calibration/config.jl file
 
