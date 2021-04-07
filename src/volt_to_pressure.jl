@@ -8,7 +8,8 @@ function interp(x, v, f0)
         return LinearInterpolation(x, v)(f0)
     catch err
         if isa(err, BoundsError)
-            throw("f0 must be between $(x[begin])-$(x[end])")
+            lower, upper = x[begin], x[end]
+            throw("f0 must be between $lower-$upper")
         end
     end
 end
