@@ -15,10 +15,12 @@ end
 calibration(::Val{:empty}) = []
 
 function __init__()
-    if isdir("calibration")
-        include("calibration/config.jl")
-    elseif isdir("../calibration")
-        include("../calibration/config.jl")
+    absolute_include(file) = include(joinpath(pwd(), file))
+
+    if isfile("calibration/config.jl")
+        absolute_include("calibration/config.jl")
+    elseif isfile("../calibration/config.jl")
+        absolute_include("../calibration/config.jl")
     else
         @info "No calibration folder found"
     end
