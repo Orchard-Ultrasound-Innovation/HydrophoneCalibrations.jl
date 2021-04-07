@@ -1,5 +1,3 @@
-using Interpolations
-using Unitful
 
 MHz_to_Hz(Hz) = Hz * 1_000_000
 
@@ -88,6 +86,6 @@ end
 function convert_sens_to_factor(sensitivity_dB)
     sensitivity_linear = 10 .^ ((1.0 * sensitivity_dB+120)/20.0)
     factor = 1 ./ sensitivity_linear
-    units = u"Pa" / u"V"
+    units = u"Pa/V"
     return factor  * units
 end

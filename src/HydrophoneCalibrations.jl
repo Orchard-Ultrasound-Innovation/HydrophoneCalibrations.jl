@@ -1,5 +1,9 @@
 module HydrophoneCalibrations
 
+using Interpolations
+using Unitful
+
+
 export volt_to_pressure, volt_to_pressure_and_phase, calibration
 export parse_onda
 
@@ -53,11 +57,11 @@ function parse_onda(name)
     info = Dict()
     count = 0
 
-    function found(s, i) 
-        return occursin(s, i) && !occursin("NONE", i) 
+    function found(s, i)
+        return occursin(s, i) && !occursin("NONE", i)
     end
 
-    function keep(s, i) 
+    function keep(s, i)
         if found(s, i)
             row = split(i)
             if length(row) == 2
